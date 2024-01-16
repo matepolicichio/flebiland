@@ -66,6 +66,8 @@ def ArticleDetailView(request, pk):
     sections = SectionSelection.objects.filter(
         is_visible=True,
         page__template_path=template_path_filter)
+    
+    header = Header.objects.first() 
 
     post = get_object_or_404(Post, pk=pk)
     posts = Post.objects.filter(is_visible=True).order_by('sort_order')
@@ -86,6 +88,7 @@ def ArticleDetailView(request, pk):
 
     context = {
         'sections': sections,
+        'header': header,
         'post': post,
         'promo_posts': posts,
         'calltoaction': calltoaction,

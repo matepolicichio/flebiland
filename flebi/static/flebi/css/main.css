@@ -1,16 +1,12 @@
 /* Fonts */
 :root {
-  --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-primary: 'Roboto', sans-serif;
-  --font-secondary: "Amatic SC", sans-serif;
-
-
-/* --font-primary: "Montserrat", sans-serif; */
-/* --font-secondary: "Lato", sans-serif; */
-
-/* --font-primary: "Amatic SC", sans-serif; */
-/* --font-secondary: "Inter", sans-serif; */
-
+  --font-default: 'Open Sans', 'Montserrat', 'Lato', 'Inter', sans-serif;
+  --font-primary: 'Open Sans', sans-serif;
+  --font-secondary: 'Roboto', sans-serif;
+  --font-tertiary: 'Montserrat', sans-serif;
+  --font-quaternary: 'Lato', sans-serif;
+  --font-quinary: 'Inter', sans-serif;
+  --font-special: 'Amatic SC', cursive;
 }
 
 
@@ -21,8 +17,8 @@
   --color-default-rgb: 33, 37, 41;
   --color-background: #ffffff;
   --color-background-rgb: 255, 255, 255;
-  --color-primary: #0084c9;
-  --color-primary-rgb: 0, 132, 201;
+  --color-primary: #652d60;
+  --color-primary-rgb: 101, 45, 96;
   --color-secondary: #32353a;
   --color-secondary-rgb: 50, 134, 158;
   --color-box-background: #ffffff;

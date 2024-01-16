@@ -21,7 +21,7 @@ def HomeView(request):
     sections = SectionSelection.objects.filter(
         is_visible=True,
         page__template_path=template_path_filter)
-
+    
     header = Header.objects.first()
     
     posts = Post.objects.filter(is_visible=True).order_by('sort_order')
@@ -67,6 +67,8 @@ def ArticleDetailView(request, pk):
         is_visible=True,
         page__template_path=template_path_filter)
 
+    header = Header.objects.first() 
+
     post = get_object_or_404(Post, pk=pk)
     posts = Post.objects.filter(is_visible=True).order_by('-post_date')
 
@@ -86,6 +88,7 @@ def ArticleDetailView(request, pk):
 
     context = {
         'sections': sections,
+        'header': header,
         'post': post,
         'service_posts': posts,
         'calltoaction': calltoaction,        
