@@ -2,6 +2,7 @@ import os
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Category, Tag, Page
+from flebi.models import Header
 from sectionselection.models import SectionSelection
 from calltoaction.models import CallToAction
 from .forms import PostForm
@@ -21,6 +22,8 @@ def HomeView(request):
         is_visible=True,
         page__template_path=template_path_filter)
     
+    header = Header.objects.first()    
+    
     posts = Post.objects.filter(is_visible=True).order_by('-post_date')
     
     enabled_calltoaction = CallToAction.objects.filter(is_mainpage_enabled=True)
@@ -33,6 +36,7 @@ def HomeView(request):
 
     context = {
         'sections': sections,
+        'header': header,
         'promo_posts': posts,
         'calltoaction': calltoaction,
         'promo_page_content': promo_page_random_content,        

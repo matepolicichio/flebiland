@@ -3,3 +3,7 @@ __pycache__/
 !*/migrations/__init__.py
 /media/
 notas.txt
+flebi/static/flebi/css/main22.css
+flebi/static/flebi/js/main22.js
+flebi/templates/flebi/header22.html
+flebiland/settings.py
