@@ -30,9 +30,9 @@
 /* Nav Menu Colors */
 :root {
   --color-nav: #3a3939;
-  --color-nav-hover: #32869e;
+  --color-nav-hover: #652d60;
   --color-nav-dropdown: #3a3939;
-  --color-nav-dropdown-hover: #32869e;
+  --color-nav-dropdown-hover: #652d60;
   --color-nav-dropdown-background: #ffffff;
   --color-nav-mobile-background: #ffffff;
 }
@@ -306,7 +306,7 @@ section {
   --color-background: #ffffff;
   --color-secondary: #444444;
   --color-nav: #444444;
-  --color-nav-hover: #32869e;
+  --color-nav-hover: #652d60;
   box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -337,7 +337,7 @@ section {
   --color-background: #ffffff;
   --color-secondary: #444444;
   --color-nav: #444444;
-  --color-nav-hover: #32869e;
+  --color-nav-hover: #652d60;
 }
 
 /*--------------------------------------------------------------
@@ -1009,8 +1009,6 @@ section {
 .footer2 .credits a {
   color: #fff;
 }
-
-
 
 
 /*--------------------------------------------------------------
@@ -2708,6 +2706,23 @@ section {
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.blog .posts-list article:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(var(--color-default-rgb), 0.2);
+  /* Increase the size on hover */
+}
+
+.blog .card-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: block;
 }
 
 .blog .posts-list .post-img {

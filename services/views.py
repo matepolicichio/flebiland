@@ -22,6 +22,9 @@ def HomeView(request):
         is_visible=True,
         page__template_path=template_path_filter)
     
+    nav_menu = SectionSelection.objects.filter(
+        nav_enabled=True)
+    
     header = Header.objects.first()
     
     posts = Post.objects.filter(is_visible=True).order_by('sort_order')
@@ -36,6 +39,7 @@ def HomeView(request):
 
     context = {
         'sections': sections,
+        'nav_menu': nav_menu,
         'header': header,
         'service_posts': posts,
         'calltoaction': calltoaction,
@@ -66,6 +70,9 @@ def ArticleDetailView(request, pk):
     sections = SectionSelection.objects.filter(
         is_visible=True,
         page__template_path=template_path_filter)
+    
+    nav_menu = SectionSelection.objects.filter(
+        nav_enabled=True)
 
     header = Header.objects.first() 
 
@@ -88,6 +95,7 @@ def ArticleDetailView(request, pk):
 
     context = {
         'sections': sections,
+        'nav_menu': nav_menu,
         'header': header,
         'post': post,
         'service_posts': posts,

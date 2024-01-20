@@ -21,6 +21,9 @@ def index(request):
         is_visible=True,
         page__template_path=template_path_filter)
     
+    nav_menu = SectionSelection.objects.filter(
+        nav_enabled=True)
+    
     header = Header.objects.first()    
     
     promo_posts = PromoPost.objects.filter(is_visible=True).order_by('-post_date')
@@ -45,6 +48,7 @@ def index(request):
 
     context = {
         'sections': sections,
+        'nav_menu': nav_menu,
         'header': header,
         'hero': hero,
         'promo_posts': promo_posts,

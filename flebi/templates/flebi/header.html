@@ -16,12 +16,10 @@
       <!-- Nav Menu -->
       <nav id="navmenu" class="navmenu">
         <ul>
-          {% if sections %}
-          {% for nav in sections %}
-          {% if nav.is_visible and nav.nav_enabled %}
-            {% if nav.page.template_path == 'flebi/index.html' %}
+          {% if nav_menu %}
+          {% for nav in nav_menu %}
+          {% if nav.nav_enabled %}
               <li><a href="{% url 'flebi:index' %}#{{ nav.section.html_id }}">{{ nav.section.name }}</a></li>            
-            {% endif %}
           {% endif %}
           {% endfor %}
           {% endif %}

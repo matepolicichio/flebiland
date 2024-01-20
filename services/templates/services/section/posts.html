@@ -2,8 +2,10 @@
 
     <div class="container section-title" data-aos="fade-up">
         {% if service_page_content %}
-        <a href="{% url 'services:home' %}"><h2>{{ service_page_content.name }}</h2></a>
-        <p>{{ service_page_content.description }}</p>
+        <a href="{% url 'services:home' %}">
+            <h2>{{ service_page_content.name }}</h2>
+        </a>
+        <p>{{ service_page_content.description | safe }}</p>
         {% endif %}
     </div>
 
@@ -17,47 +19,87 @@
 
     {% if service_posts.all %}
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row gy-4 posts-list">
-
+        <div class="row posts-list gy-4">
             {% for post in service_posts %}
-            <div class="card bx col-lg-6 align-items-center justify-content-center p-3">
-                <div class="row col-lg-12 g-0 align-items-center justify-content-center">
-                    <div class="col-lg-4">
-                        {% if post.header_image %}
-                        <a href="{% url 'services:article-detail' post.pk %}">
-                            <img src="{{ post.header_image.url }}" alt="..." class="img-fluid rounded-start">
-                        </a>
-                        {% endif %}
+            <div class="col-xl-4 col-md-6">
+
+                <div class="card align-items-center justify-content-center" {% if post.header_image %}
+                    style="background-image: url('{{ post.header_image.url }}');" {% endif %}>
+
+                    <div class="card-overlay"></div>
+                    <a href="{% url 'services:article-detail' post.pk %}" class="card-link"></a>
+
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-end">
+                            {% if user.is_authenticated and user.is_staff %}
+                            <div>
+                                <small>
+                                    <a href="{% url 'services:update_post' post.pk %}"><i class="bi bi-pencil"></i></a>
+                                    <a href="{% url 'services:delete_post' post.pk %}"><i class="bi bi-trash"></i></a>
+                                </small>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <h2 class="title">
+                            {{ post.title }}
+                        </h2>
+                        <p class="description">{{ post.snippet }}</p>
                     </div>
 
-
-                    <div class="col-lg-8">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-end">
-                            
-                                {% if user.is_authenticated and user.is_staff %}
-                                    <div>
-                                        <small>
-                                        <a href="{% url 'services:update_post' post.pk %}"><i class="bi bi-pencil"></i></a>
-                                        <a href="{% url 'services:delete_post' post.pk %}"><i class="bi bi-trash"></i></a>
-                                        </small>
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <h2 class="title">
-                                <a href="{% url 'services:article-detail' post.pk %}">{{ post.title }}</a>
-                            </h2>
-
-                            <p class="description">{{ post.snippet }}</p>
-                            <!-- <p class="post-category">{{ post.category }}</p>                        
-                            <p class="description"><small>{{ post.post_date }}</small></p> -->
-                        </div>
-                    </div>                   
                 </div>
+
             </div>
             {% endfor %}
-
         </div>
     </div>
+
+
+    <style>
+        .blog .card {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 4px 16px rgba(var(--color-default-rgb), 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .blog .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+            display: block;
+        }
+
+
+        .blog .card-body {
+            z-index: 2;
+            width: 100%;
+        }
+
+        .blog .card-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            display: block;
+        }
+
+        .blog .card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 16px rgba(var(--color-default-rgb), 0.2);
+        }
+    </style>
+
     {% endif %}
 </section>
