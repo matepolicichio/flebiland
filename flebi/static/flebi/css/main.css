@@ -2700,29 +2700,33 @@ section {
 --------------------------------------------------------------*/
 /* Blog Section - Blog Page
 ------------------------------*/
-.blog .posts-list article {
+.blog .posts-list .article {
+  position: relative;
+  overflow: hidden;
+  border: none;
   box-shadow: 0 4px 16px rgba(var(--color-default-rgb), 0.1);
   padding: 30px;
-  height: 100%;
   border-radius: 10px;
-  overflow: hidden;
+  height: 100%;
   transition: transform 0.3s ease;
 }
 
-.blog .posts-list article:hover {
+.blog .posts-list .article:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 16px rgba(var(--color-default-rgb), 0.2);
   /* Increase the size on hover */
 }
 
-.blog .card-link {
+.card-link {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
+  right: 0;
+  bottom: 0;
+  padding: 15px; /* Adjust the padding as needed */
   display: block;
+  text-decoration: none;
+  z-index: 1; /* Ensure the link is on top of other content within the card */
 }
 
 .blog .posts-list .post-img {
