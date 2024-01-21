@@ -42,6 +42,7 @@ class Post(models.Model):
     snippet = models.CharField(max_length=255, null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='services_post_likes') # change related_name to be unique
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='articles')
+    category2 = models.ManyToManyField(Category, blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
     sort_order = models.IntegerField(default=1)
     is_visible = models.BooleanField(default=True)

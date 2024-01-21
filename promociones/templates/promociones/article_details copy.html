@@ -280,12 +280,9 @@
                         <div class="sidebar-item categories">
                             <h3 class="sidebar-title">Categorías</h3>
                             <ul class="mt-3">
-                                {% for category, count in category_counts.items %}
-                                    {% if count > 0 %}
-                                    <li><a href="#">{{ category }}<span>({{ count }})</span></a></li>
-                                    {% endif %}
+                                {% for category in category2 %}
+                                    <li><a href="#">{{ category.name }}</a></li>
                                 {% endfor %}
-                            </ul>
                         </div><!-- End sidebar categories-->
 
                         <div class="sidebar-item tags">

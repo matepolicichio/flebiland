@@ -83,10 +83,10 @@ def ArticleDetailView(request, pk):
     if post.call2action:
         calltoaction = get_object_or_404(CallToAction, id=post.call2action.id)  
 
-    categories = Category.objects.all()
-    category_counts = {category.name: category.articles.count() for category in categories}
+    # categories = Category.objects.all()
+    # category_counts = {category.name: category.articles.count() for category in categories}
     
-    tags = Tag.objects.all()
+    # tags = Tag.objects.all()
 
     enabled_service_page_content = Page.objects.filter(is_enabled=True)    
     service_page_random_content = None
@@ -100,8 +100,6 @@ def ArticleDetailView(request, pk):
         'post': post,
         'service_posts': posts,
         'calltoaction': calltoaction,        
-        'category_counts': category_counts,
-        'tags': tags,
         'service_page_content': service_page_random_content,
     }
 

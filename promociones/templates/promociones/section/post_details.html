@@ -88,9 +88,9 @@
                     <div class="meta-bottom">
                         <i class="bi bi-folder"></i>
                         <ul class="cats">
-                            {% if post.category %}
-                            <li><a href="#">{{ post.category }}</a></li>
-                            {% endif %}
+                            {% for category in post.category2.all %}
+                            <li><a href="#">{{ category.name }}</a></li>
+                            {% endfor %}
                         </ul>
 
                         <i class="bi bi-tags"></i>
