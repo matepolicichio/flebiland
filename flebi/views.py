@@ -26,8 +26,8 @@ def index(request):
     
     header = Header.objects.first()    
     
-    promo_posts = PromoPost.objects.filter(is_visible=True).order_by('-post_date')
-    service_posts = ServicePost.objects.filter(is_visible=True).order_by('-post_date')
+    promo_posts = PromoPost.objects.filter(is_visible=True).order_by('sort_order')
+    service_posts = ServicePost.objects.filter(is_visible=True).order_by('sort_order')
 
     enabled_calltoaction = CallToAction.objects.filter(is_mainpage_enabled=True)
     calltoaction = choice(enabled_calltoaction) if enabled_calltoaction.exists() else None
