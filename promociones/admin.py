@@ -12,12 +12,17 @@ class PageAdmin(admin.ModelAdmin):
 admin.site.register(Page, PageAdmin)
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 
+    list_display = ['title',
+                    'show_title',
                     'title_tag',
                     'header_image',
+                    'show_header_image',
                     'author',
+                    'snippet',
+                    'show_description',
                     'is_postcard_enabled',
                     'get_postcards',
+                    'show_meta_bottom',
                     'get_categories',
                     'get_tags',
                     'call2action',
@@ -47,10 +52,12 @@ admin.site.register(Post, PostAdmin)
 class PostCardAdmin(admin.ModelAdmin):
     list_display = ['title',
                     'header_image',
-                    'get_categories',
-                    'get_tags',
                     'expiration_date',
                     'available_quantity',
+                    'show_metrics',
+                    'get_categories',
+                    'get_tags',
+                    'show_meta_bottom',
                     'sort_order',
                     'created_at',
                     'updated_at',

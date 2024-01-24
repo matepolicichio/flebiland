@@ -7,14 +7,16 @@
             <div class="col-lg-8">
 
                 <article class="article">
-                    {% if post.header_image %}
+                    {% if post.header_image and post.show_header_image %}
                     <div class="post-img">
                         <img src="{{ post.header_image.url }}" alt="..." class="img-fluid">
                     </div>
                     {% endif %}
 
                     <div class="d-flex justify-content-between">
+                        {% if post.show_title %}
                         <h2 class="title">{{ post.title }}</h2>
+                        {% endif %}
 
                         {% if user.id == post.author.id %}
 
@@ -25,7 +27,7 @@
                     {% endif %}
                     </div>
 
-                    {% comment %}
+                    {% if post.show_meta_top %}
                     <div class="meta-top">
                         <ul>
                             <li class="d-flex align-items-center"><i class="bi bi-person"></i>
@@ -44,6 +46,7 @@
                                 <small>{{ post.post_date }}</small>
                             </li>
 
+                            {% comment %}
                             <li id='comments-link' class="d-flex align-items-center"><i class="bi bi-chat-dots"></i>
                                 <a href="#comments">
                                     {{ post.comments.count }} Comentarios
@@ -65,27 +68,26 @@
                                 </form>
                                 <small>Likes</small>
                             </li>
-
-
-
                             {% else %}
                             <li class="d-flex align-items-center"><i class="bi bi-star"></i>
                                 <a href="{% url 'login' %}">
                                     Login to like
                                 </a>
                             </li>
-
                             {% endif %}
+                            {% endcomment %}
                         </ul>
                     </div><!-- End meta top -->
-                    {% endcomment  %}
+                    {% endif  %}
 
+                    {% if post.show_description %}
                     <div class="content">
                         {{ post.body | safe }}
                     </div><!-- End post content -->
+                    {% endif %}
 
                     {% if post.postcard.all and post.is_postcard_enabled %}
-                    <div id="carouselPostCard" class="carousel slide" data-bs-ride="carousel" data-aos="fade-up">
+                    <div id="carouselPostCard" class="carousel slide carousel-dark" data-bs-ride="carousel">
 
                         <div class="carousel-indicators mt-3">
                             {% for postcard in post.postcard.all %}
@@ -104,7 +106,7 @@
                                 <div class="row gy-3 justify-content-center align-items-center">
 
                                     <div>
-                                        <h5>{{ postcard.title }}</h5>
+                                        <h5>{{ postcard.title | safe }}</h5>
                                     </div>
 
                                     {% if postcard.header_image %}
@@ -117,6 +119,7 @@
                                         {{ postcard.body | safe }}
                                     </div>
 
+                                    {% if postcard.show_metrics %}
                                     <div class="d-flex justify-content-between p-3">
                                         <div>
                                             <i class="bi bi-clock"></i>
@@ -127,8 +130,9 @@
                                             <span>Available Quantity: {{ postcard.available_quantity }}</span>
                                         </div>
                                     </div>
+                                    {% endif %}
 
-
+                                    {% if postcard.show_meta_bottom %}
                                     <div class="meta-bottom">
                                         <i class="bi bi-folder"></i>
                                         <ul class="cats">
@@ -143,6 +147,7 @@
                                             {% endfor %}
                                         </ul>
                                     </div><!-- End meta bottom -->
+                                    {% endif %}
 
                                 </div>
                             </div>
@@ -164,7 +169,7 @@
                     {% endif %}
 
 
-                    {% comment %}
+                    {% if post.show_meta_bottom %}
                     <div class="meta-bottom">
                         <i class="bi bi-folder"></i>
                         <ul class="cats">
@@ -180,7 +185,7 @@
                             {% endfor %}
                         </ul>
                     </div><!-- End meta bottom -->
-                    {% endcomment %}
+                    {% endif %}
 
                 </article><!-- End post article -->
 
