@@ -43,8 +43,6 @@ class PostCard(models.Model):
     expiration_date = models.DateField(null=True, blank=True)
     available_quantity = models.IntegerField(default=0)
     sort_order = models.IntegerField(default=1)
-    is_visible = models.BooleanField(default=True)
-
 
     def __str__(self):
         return self.title

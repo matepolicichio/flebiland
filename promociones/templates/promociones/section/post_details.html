@@ -13,11 +13,21 @@
                     </div>
                     {% endif %}
 
-                    <h2 class="title">{{ post.title }}</h2>
+                    <div class="d-flex justify-content-between">
+                        <h2 class="title">{{ post.title }}</h2>
 
+                        {% if user.id == post.author.id %}
+
+                        <div id='comments-link' class="d-flex align-items-center">
+                            <a href="{% url 'promociones:update_post' post.pk %}"><i class="bi bi-pencil"></i></a>
+                            <a href="{% url 'promociones:delete_post' post.pk %}"><i class="bi bi-trash"> </i></a>
+                        </div>
+                    {% endif %}
+                    </div>
+
+                    {% comment %}
                     <div class="meta-top">
                         <ul>
-                            {% comment %}
                             <li class="d-flex align-items-center"><i class="bi bi-person"></i>
                                 {% if post.author.profile %}
                                 <a href="{% url 'members:show_profile' post.author.profile.id %}">
@@ -29,21 +39,18 @@
                                 {{ post.author.last_name }}
                                 {% endif %}
                             </li>
-                            {% endcomment %}
 
                             <li class="d-flex align-items-center"><i class="bi bi-clock"></i>
                                 <small>{{ post.post_date }}</small>
                             </li>
-                            {% comment %}
+
                             <li id='comments-link' class="d-flex align-items-center"><i class="bi bi-chat-dots"></i>
                                 <a href="#comments">
                                     {{ post.comments.count }} Comentarios
                                 </a>
                             </li>
-                            {% endcomment %}
 
                             {% if user.is_authenticated %}
-                            {% comment %}
                             <li id='comments-link' class="d-flex align-items-center">
                                 <form id="like-form" action="{% url 'promociones:like_post' post.pk %}" method="POST">
                                     {% csrf_token %}
@@ -58,33 +65,106 @@
                                 </form>
                                 <small>Likes</small>
                             </li>
-                            {% endcomment %}
-
-                            {% if user.id == post.author.id %}
-
-                            <li id='comments-link' class="d-flex align-items-center">
-                                <a href="{% url 'promociones:update_post' post.pk %}"><i class="bi bi-pencil"></i></a>
-                                <a href="{% url 'promociones:delete_post' post.pk %}"><i class="bi bi-trash"></i></a>
-                            </li>
-                            {% endif %}
 
 
-                            {% comment %}
+
                             {% else %}
                             <li class="d-flex align-items-center"><i class="bi bi-star"></i>
                                 <a href="{% url 'login' %}">
                                     Login to like
                                 </a>
                             </li>
-                            {% endcomment %}
+
                             {% endif %}
                         </ul>
                     </div><!-- End meta top -->
+                    {% endcomment  %}
 
                     <div class="content">
                         {{ post.body | safe }}
                     </div><!-- End post content -->
 
+                    {% if post.postcard.all and post.is_postcard_enabled %}
+                    <div id="carouselPostCard" class="carousel slide" data-bs-ride="carousel" data-aos="fade-up">
+
+                        <div class="carousel-indicators mt-3">
+                            {% for postcard in post.postcard.all %}
+                            <button type="button" data-bs-target="#carouselPostCard"
+                                data-bs-slide-to="{{ forloop.counter0 }}"
+                                class="{% if forloop.first %}active{% endif %}"
+                                aria-current="{% if forloop.first %}true{% endif %}"
+                                aria-label="Slide {{ forloop.counter }}">
+                            </button>
+                            {% endfor %}
+                        </div>
+
+                        <div class="carousel-inner">
+                            {% for postcard in post.postcard.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row gy-3 justify-content-center align-items-center">
+
+                                    <div>
+                                        <h5>{{ postcard.title }}</h5>
+                                    </div>
+
+                                    {% if postcard.header_image %}
+                                    <div class="col-12 text-center">
+                                        <img src="{{ postcard.header_image.url }}" class="d-block w-100" alt="...">
+                                    </div>
+                                    {% endif %}
+
+                                    <div>
+                                        {{ postcard.body | safe }}
+                                    </div>
+
+                                    <div class="d-flex justify-content-between p-3">
+                                        <div>
+                                            <i class="bi bi-clock"></i>
+                                            <span>Expires: {{ postcard.expiration_date }}</span>
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-compass"></i>
+                                            <span>Available Quantity: {{ postcard.available_quantity }}</span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="meta-bottom">
+                                        <i class="bi bi-folder"></i>
+                                        <ul class="cats">
+                                            {% for category in postcard.category.all %}
+                                            <li><a href="#">{{ category.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                        <i class="bi bi-tags"></i>
+                                        <ul class="tags">
+                                            {% for tag in postcard.tags.all %}
+                                            <li><a href="#">{{ tag.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div><!-- End meta bottom -->
+
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPostCard"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselPostCard"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+
+                    </div>
+                    {% endif %}
+
+
+                    {% comment %}
                     <div class="meta-bottom">
                         <i class="bi bi-folder"></i>
                         <ul class="cats">
@@ -100,6 +180,7 @@
                             {% endfor %}
                         </ul>
                     </div><!-- End meta bottom -->
+                    {% endcomment %}
 
                 </article><!-- End post article -->
 
@@ -238,7 +319,8 @@
                             {% endif %}
 
                             <div>
-                                <h4><a href="{% url 'promociones:article-detail' recent_post.pk %}">{{ recent_post.title}}</a></h4>
+                                <h4><a href="{% url 'promociones:article-detail' recent_post.pk %}">
+                                    {{ recent_post.title }}</a></h4>
                                 <p class="post-date">{{ recent_post.post_date }}</p>
                             </div>
                         </div><!-- End recent post item-->

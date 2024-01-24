@@ -52,7 +52,6 @@ class PostCardAdmin(admin.ModelAdmin):
                     'expiration_date',
                     'available_quantity',
                     'sort_order',
-                    'is_visible',
                     'created_at',
                     'updated_at',
                     ]

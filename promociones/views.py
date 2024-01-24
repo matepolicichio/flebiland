@@ -12,6 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 import random
 from random import choice
+from datetime import date
 
 
 def HomeView(request):
@@ -93,6 +94,8 @@ def ArticleDetailView(request, pk):
     if enabled_promo_page_content.exists():
         promo_page_random_content = random.choice(enabled_promo_page_content)
 
+    today = date.today()
+
     context = {
         'sections': sections,
         'nav_menu': nav_menu,
@@ -101,6 +104,7 @@ def ArticleDetailView(request, pk):
         'promo_posts': posts,
         'calltoaction': calltoaction,
         'promo_page_content': promo_page_random_content,
+        'today': today,
     }
 
     template_name = 'promociones/article_details.html'
