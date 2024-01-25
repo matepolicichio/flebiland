@@ -61,6 +61,7 @@ class PostCardAdmin(admin.ModelAdmin):
                     'sort_order',
                     'created_at',
                     'updated_at',
+                    'background_color',
                     ]
 
     # Define methods to display tags and categories in the list display

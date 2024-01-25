@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from datetime import datetime, date
 from ckeditor.fields import RichTextField
+from colorfield.fields import ColorField
 
 from calltoaction.models import CallToAction as Call2Action
 from django.core.exceptions import ValidationError
@@ -33,21 +34,24 @@ def validate_numeric_whatsapp_number(value):
 
 
 class PostCard(models.Model):
-    title = models.CharField(max_length=255, default="<h3>Title</h3>")
+    title = models.CharField(max_length=255)
+    show_title = models.BooleanField(default=False)
     header_image = models.ImageField(null=True, blank=True, upload_to="images/promociones/postcard", default=None)
     body = RichTextField(blank=True, null=True)
-    
+
     expiration_date = models.DateField(null=True, blank=True)
     available_quantity = models.IntegerField(default=0)
     show_metrics = models.BooleanField(default=True)
 
     category = models.ManyToManyField(Category, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    show_meta_bottom = models.BooleanField(default=True)    
+    show_meta_bottom = models.BooleanField(default=False)    
 
     sort_order = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    background_color = ColorField(default='#ffffff')  # Set a default color, pip install django-colorfield
 
     def __str__(self):
         return self.title

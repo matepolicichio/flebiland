@@ -87,13 +87,13 @@
                     {% endif %}
 
                     {% if post.postcard.all and post.is_postcard_enabled %}
-                    <div id="carouselPostCard" class="carousel slide carousel-dark" data-bs-ride="carousel">
+                    <div id="carouselPostCard" class="carousel slide" data-bs-ride="false" data-bs-interval="3000">
 
                         <div class="carousel-indicators mt-3">
                             {% for postcard in post.postcard.all %}
                             <button type="button" data-bs-target="#carouselPostCard"
                                 data-bs-slide-to="{{ forloop.counter0 }}"
-                                class="{% if forloop.first %}active{% endif %}"
+                                class="button {% if forloop.first %}active{% endif %}"
                                 aria-current="{% if forloop.first %}true{% endif %}"
                                 aria-label="Slide {{ forloop.counter }}">
                             </button>
@@ -103,11 +103,11 @@
                         <div class="carousel-inner">
                             {% for postcard in post.postcard.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <div class="row gy-3 justify-content-center align-items-center">
-
-                                    <div>
-                                        <h5>{{ postcard.title | safe }}</h5>
-                                    </div>
+                                <div class="row gy-3 justify-content-center align-items-center p-3" style="background-color: {{ postcard.background_color }};">
+                                    
+                                    {% if postcard.show_title %}
+                                        <h2 class="title">{{ postcard.title }}</h2>
+                                    {% endif %}
 
                                     {% if postcard.header_image %}
                                     <div class="col-12 text-center">
@@ -123,11 +123,11 @@
                                     <div class="d-flex justify-content-between p-3">
                                         <div>
                                             <i class="bi bi-clock"></i>
-                                            <span>Expires: {{ postcard.expiration_date }}</span>
+                                            <span>Válidez: {{ postcard.expiration_date }}</span>
                                         </div>
                                         <div>
                                             <i class="bi bi-compass"></i>
-                                            <span>Available Quantity: {{ postcard.available_quantity }}</span>
+                                            <span>Cantidad: {{ postcard.available_quantity }}</span>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -370,5 +370,49 @@
             </div>
         </div>
     </div>
+
+    <style>
+    /* Custom CSS for styling */
+    #carouselPostCard {
+        overflow: hidden; /* Hide overflow to prevent arrows from being cut off */
+    }
+
+
+    .carousel-indicators {
+        top: 5px; /* Adjust top margin for positioning */
+        text-align: center; /* Center the indicators */
+    }
+
+    .carousel-indicators .button {
+        width: 10px; /* Set indicator circle width */
+        height: 10px; /* Set indicator circle height */
+        border-radius: 50%; /* Make indicator circle a circle */
+        background-color: whitesmoke; /* Set indicator circle color */
+        margin: 0 5px; /* Adjust margin between indicators */
+        border: solid 1px gray;
+    }
+
+    .carousel-indicators .active {
+        width: 12px; /* Set active indicator circle width */
+        height: 12px; /* Set active indicator circle height */
+        background-color: gray; /* Set active indicator circle color */
+    }
+    
+        .carousel-control-prev, .carousel-control-next {
+            background-color: gray; /* Set arrow background color to red */
+            width: 50px; /* Set arrow width */
+            height: 50px; /* Set arrow height */
+            top: 50%; /* Position arrows vertically centered */
+            transform: translateY(-50%); /* Adjust vertical positioning */
+            border-radius: 50%; 
+        }
+    
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            border-radius: 50%; /* Create a circular arrow icon */
+            background-color: gray;
+        }
+    </style>
+
+
 
 </section><!-- End Blog-details Section -->
