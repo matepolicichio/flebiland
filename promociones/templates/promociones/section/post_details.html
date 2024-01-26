@@ -1,10 +1,10 @@
-<section id="blog-details" class="blog-details">
+<section id="{{ section_selection.section.html_id }}" class="blog-details">
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row g-5">
 
-            <div class="col-lg-8">
+            <div class={% if is_sidebar_enabled %}"col-lg-8"{% endif %}>
 
                 <article class="article">
                     {% if post.header_image and post.show_header_image %}
@@ -24,7 +24,7 @@
                             <a href="{% url 'promociones:update_post' post.pk %}"><i class="bi bi-pencil"></i></a>
                             <a href="{% url 'promociones:delete_post' post.pk %}"><i class="bi bi-trash"> </i></a>
                         </div>
-                    {% endif %}
+                        {% endif %}
                     </div>
 
                     {% if post.show_meta_top %}
@@ -78,7 +78,7 @@
                             {% endcomment %}
                         </ul>
                     </div><!-- End meta top -->
-                    {% endif  %}
+                    {% endif %}
 
                     {% if post.show_description %}
                     <div class="content">
@@ -87,7 +87,7 @@
                     {% endif %}
 
                     {% if post.postcard.all and post.is_postcard_enabled %}
-                    <div id="carouselPostCard" class="carousel slide" data-bs-ride="false" data-bs-interval="3000">
+                    <div id="carouselPostCard" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
 
                         <div class="carousel-indicators mt-3">
                             {% for postcard in post.postcard.all %}
@@ -103,10 +103,11 @@
                         <div class="carousel-inner">
                             {% for postcard in post.postcard.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <div class="row gy-3 justify-content-center align-items-center p-3" style="background-color: {{ postcard.background_color }};">
-                                    
+                                <div class="row gy-3 justify-content-center align-items-center p-3"
+                                    style="background-color: {{ postcard.background_color }};">
+
                                     {% if postcard.show_title %}
-                                        <h2 class="title">{{ postcard.title }}</h2>
+                                    <h2 class="title">{{ postcard.title }}</h2>
                                     {% endif %}
 
                                     {% if postcard.header_image %}
@@ -114,36 +115,47 @@
                                         <img src="{{ postcard.header_image.url }}" class="d-block w-100" alt="...">
                                     </div>
                                     {% endif %}
-
                                     <div>
                                         {{ postcard.body | safe }}
                                     </div>
 
-                                    {% if postcard.show_metrics %}
-                                    <div class="d-flex justify-content-between p-3">
-                                        <div>
+                                    <div class="row justify-content-center align-items-center p-3" data-aos="fade-up"
+                                        data-aos-delay="300">
+
+                                        {% if postcard.is_whatsapp_enabled %}
+                                        <div class="col-12 text-center p-3">
+                                            <a href="https://api.whatsapp.com/send?phone={{ postcard.whats_number }}&text={{ postcard.whats_message }}" data-aos="fade-up" data-aos-delay="300" class="whatsapp cta-btn" target="_blank">{{ postcard.whats_btn_text }} <i class="bi bi-whatsapp"></i>
+                                            </a>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if postcard.show_metrics %}
+                                        <div class="col-12 text-center">
                                             <i class="bi bi-clock"></i>
                                             <span>Válidez: {{ postcard.expiration_date }}</span>
                                         </div>
-                                        <div>
+                                        <div class="col-12 text-center">
                                             <i class="bi bi-compass"></i>
                                             <span>Cantidad: {{ postcard.available_quantity }}</span>
                                         </div>
+                                        {% endif %}
+
                                     </div>
-                                    {% endif %}
+
 
                                     {% if postcard.show_meta_bottom %}
                                     <div class="meta-bottom">
+
                                         <i class="bi bi-folder"></i>
                                         <ul class="cats">
                                             {% for category in postcard.category.all %}
-                                            <li><a href="#">{{ category.name }}</a></li>
+                                            <li>{{ category.name }}</li>
                                             {% endfor %}
                                         </ul>
                                         <i class="bi bi-tags"></i>
                                         <ul class="tags">
                                             {% for tag in postcard.tags.all %}
-                                            <li><a href="#">{{ tag.name }}</a></li>
+                                            <li>{{ tag.name }}</li>
                                             {% endfor %}
                                         </ul>
                                     </div><!-- End meta bottom -->
@@ -303,6 +315,7 @@
 
             <div class="col-lg-4">
 
+                {% if is_sidebar_enabled %}
                 <div class="sidebar">
                     <div class="sidebar-item recent-posts">
 
@@ -325,7 +338,7 @@
 
                             <div>
                                 <h4><a href="{% url 'promociones:article-detail' recent_post.pk %}">
-                                    {{ recent_post.title }}</a></h4>
+                                        {{ recent_post.title }}</a></h4>
                                 <p class="post-date">{{ recent_post.post_date }}</p>
                             </div>
                         </div><!-- End recent post item-->
@@ -366,50 +379,89 @@
                     {% endcomment %}
 
                 </div><!-- End Sidebar -->
+                {% endif %}
 
             </div>
         </div>
     </div>
 
     <style>
-    /* Custom CSS for styling */
-    #carouselPostCard {
-        overflow: hidden; /* Hide overflow to prevent arrows from being cut off */
-    }
-
-
-    .carousel-indicators {
-        top: 5px; /* Adjust top margin for positioning */
-        text-align: center; /* Center the indicators */
-    }
-
-    .carousel-indicators .button {
-        width: 10px; /* Set indicator circle width */
-        height: 10px; /* Set indicator circle height */
-        border-radius: 50%; /* Make indicator circle a circle */
-        background-color: whitesmoke; /* Set indicator circle color */
-        margin: 0 5px; /* Adjust margin between indicators */
-        border: solid 1px gray;
-    }
-
-    .carousel-indicators .active {
-        width: 12px; /* Set active indicator circle width */
-        height: 12px; /* Set active indicator circle height */
-        background-color: gray; /* Set active indicator circle color */
-    }
-    
-        .carousel-control-prev, .carousel-control-next {
-            background-color: gray; /* Set arrow background color to red */
-            width: 50px; /* Set arrow width */
-            height: 50px; /* Set arrow height */
-            top: 50%; /* Position arrows vertically centered */
-            transform: translateY(-50%); /* Adjust vertical positioning */
-            border-radius: 50%; 
+        /* Custom CSS for styling */
+        #carouselPostCard {
+            overflow: hidden;
+            /* Hide overflow to prevent arrows from being cut off */
         }
-    
-        .carousel-control-prev-icon, .carousel-control-next-icon {
-            border-radius: 50%; /* Create a circular arrow icon */
+
+        .carousel-indicators {
+            top: 5px;
+            height: 100px;
+            /* Adjust top margin for positioning */
+            text-align: center;
+            /* Center the indicators */
+        }
+
+        .carousel-indicators .button {
+            width: 10px;
+            /* Set indicator circle width */
+            height: 10px;
+            /* Set indicator circle height */
+            border-radius: 50%;
+            /* Make indicator circle a circle */
+            background-color: whitesmoke;
+            /* Set indicator circle color */
+            margin: 0 5px;
+            /* Adjust margin between indicators */
+            border: solid 1px gray;
+        }
+
+        .carousel-indicators .active {
+            width: 12px;
+            /* Set active indicator circle width */
+            height: 12px;
+            /* Set active indicator circle height */
             background-color: gray;
+            /* Set active indicator circle color */
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            background-color: gray;
+            /* Set arrow background color to red */
+            width: 50px;
+            /* Set arrow width */
+            height: 50px;
+            /* Set arrow height */
+            top: 50%;
+            /* Position arrows vertically centered */
+            transform: translateY(-50%);
+            /* Adjust vertical positioning */
+            border-radius: 50%;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            border-radius: 50%;
+            /* Create a circular arrow icon */
+            background-color: gray;
+        }
+
+        .blog-details .cta-btn {
+            font-family: var(--font-primary);
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 1px;
+            display: inline-block;
+            padding: 12px 40px;
+            border-radius: 5px;
+            transition: 0.5s;
+            margin-top: 20px;
+            border: 2px solid var(--color-inverse);
+            color: var(--color-inverse);
+        }
+
+        .blog-details .cta-btn:hover {
+            background: var(--color-primary);
+            border: 2px solid var(--color-primary);
         }
     </style>
 

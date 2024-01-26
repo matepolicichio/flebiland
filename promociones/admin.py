@@ -55,12 +55,17 @@ class PostCardAdmin(admin.ModelAdmin):
                     'expiration_date',
                     'available_quantity',
                     'show_metrics',
+                    'is_whatsapp_enabled',
+                    'whats_number',
+                    'whats_message',
+                    'whats_btn_text',
                     'get_categories',
                     'get_tags',
-                    'show_meta_bottom',
+                    'show_meta_bottom',                    
                     'sort_order',
                     'created_at',
                     'updated_at',
+                    'is_sidebar_enabled',
                     'background_color',
                     ]
 

@@ -43,6 +43,17 @@ class PostCard(models.Model):
     available_quantity = models.IntegerField(default=0)
     show_metrics = models.BooleanField(default=True)
 
+    is_whatsapp_enabled = models.BooleanField(default=True)    
+    whats_number = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+        validators=[validate_numeric_whatsapp_number],
+        default="5491168653898"
+        )
+    whats_message = models.CharField(max_length=255, default="Hola,%20me%20gustaría%20acceder%20a%20esta%20promoción%0A%0AEnviado%20desde%20mi%20página%20web:%20https://flebiland.flebella.com/")
+    whats_btn_text = models.CharField(max_length=255, default="Quiero esta Promo")
+
     category = models.ManyToManyField(Category, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     show_meta_bottom = models.BooleanField(default=False)    
@@ -50,6 +61,8 @@ class PostCard(models.Model):
     sort_order = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    is_sidebar_enabled = models.BooleanField(default=True)
 
     background_color = ColorField(default='#ffffff')  # Set a default color, pip install django-colorfield
 

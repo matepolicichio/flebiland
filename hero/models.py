@@ -20,7 +20,7 @@ class Hero(models.Model):
     form_placeholder = models.CharField(max_length=255, default="Ingrese su email")
     form_value = models.CharField(max_length=255, default="Suscribirme")
 
-    is_whatsapp_enabled = models.BooleanField(default=False)    
+    is_whatsapp_enabled = models.BooleanField(default=True)    
     whats_number = models.CharField(
         max_length=20,
         null=True,
@@ -28,7 +28,7 @@ class Hero(models.Model):
         validators=[validate_numeric_whatsapp_number],
         default="5491168653898"
         )
-    whats_message = models.CharField(max_length=255, default="Hola,%20me%20gustaría%20recibir%20más%20información.%0A- Nombre:%0A- Correo:%0AEnviado%20desde%20mi%20página%20web:%20https://flebella.com/")
+    whats_message = models.CharField(max_length=255, default="Hola,%20me%20gustaría%20recibir%20más%20información.%0A- Nombre:%0A- Correo:%0AEnviado%20desde%20mi%20página%20web:%20https://flebiland.flebella.com/")
     whats_btn_text = models.CharField(max_length=255, default="Contáctanos")
     is_enabled = models.BooleanField(default=True)
  

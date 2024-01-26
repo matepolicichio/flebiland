@@ -2914,7 +2914,7 @@ section {
   padding-top: 10px;
   border-top: 1px solid rgba(var(--color-default-rgb), 0.1);
   width: 100%;
-  z-index: 2;
+  /* z-index: 2; */
 }
 
 .meta-bottom i {
