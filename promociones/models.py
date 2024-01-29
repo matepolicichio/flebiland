@@ -8,6 +8,16 @@ from colorfield.fields import ColorField
 from calltoaction.models import CallToAction as Call2Action
 from django.core.exceptions import ValidationError
 
+message = """"Hola, me gustaría recibir más información sobre las *Promociones y Tratamientos de Flebella*.
+Enviado desde flebiland webapp https://flebiland.flebella.com
+
+Promoción de referencia: *...*
+_Distintivo: ..._
+https://flebiland.flebella.com/promociones
+
+Muchas Gracias,"""
+
+
 class Page(models.Model):
     name = models.CharField(max_length=255, default="Promociones")
     description = models.TextField(null=True, blank=True, default="<p>Descripción de <span>Promociones ...</span></p>")
@@ -51,20 +61,15 @@ class PostCard(models.Model):
         validators=[validate_numeric_whatsapp_number],
         default="5491168653898"
         )
-    whats_message = models.CharField(max_length=255, default="Hola,%20me%20gustaría%20acceder%20a%20esta%20promoción%0A%0AEnviado%20desde%20mi%20página%20web:%20https://flebiland.flebella.com/")
+    whats_message = models.TextField(null=True, blank=True, default=message)
     whats_btn_text = models.CharField(max_length=255, default="Quiero esta Promo")
-
-    category = models.ManyToManyField(Category, blank=True)
-    tags = models.ManyToManyField(Tag, blank=True)
-    show_meta_bottom = models.BooleanField(default=False)    
 
     sort_order = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    is_sidebar_enabled = models.BooleanField(default=True)
-
     background_color = ColorField(default='#ffffff')  # Set a default color, pip install django-colorfield
+    text_color = ColorField(default='#000000')
 
     def __str__(self):
         return self.title
@@ -82,6 +87,7 @@ class Post(models.Model):
     show_description = models.BooleanField(default=True)
     is_postcard_enabled = models.BooleanField(default=False)
     postcard = models.ManyToManyField(PostCard, blank=True)
+    postcard_interval = models.IntegerField(default=5000)
     likes = models.ManyToManyField(User, related_name='promociones_posts_likes')
     category2 = models.ManyToManyField(Category, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)

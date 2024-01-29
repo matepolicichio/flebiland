@@ -1,17 +1,32 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
+message = """"Hola, me gustaría recibir más información sobre las *Promociones y Tratamientos de Flebella*.
+Enviado desde flebiland webapp https://flebiland.flebella.com
+
+Tratamiento de referencia: *...*
+_Distintivo: ..._
+https://flebiland.flebella.com/services
+
+Promoción de referencia: *...*
+_Distintivo: ..._
+https://flebiland.flebella.com/promociones
+
+Muchas Gracias,"""
+
+
 def validate_numeric_whatsapp_number(value):
     if not value.isdigit():
         raise ValidationError('WhatsApp number must contain only numeric characters.')
 
 class Hero(models.Model):
 
-    title = models.CharField(max_length=255, default="Flebella Medicina Estetica")
+    title = models.CharField(max_length=255, default="Flebella Medicina Estética")
     description = models.TextField(
             null=True,
             blank=True,
-            default="La mejor clinica estetica de Buenos Aires",
+            default="La mejor Clínica Estética de Buenos Aires",
             )
 
     background_image = models.ImageField(null=True, blank=True, upload_to="images/hero/", default=None)
@@ -28,7 +43,7 @@ class Hero(models.Model):
         validators=[validate_numeric_whatsapp_number],
         default="5491168653898"
         )
-    whats_message = models.CharField(max_length=255, default="Hola,%20me%20gustaría%20recibir%20más%20información.%0A- Nombre:%0A- Correo:%0AEnviado%20desde%20mi%20página%20web:%20https://flebiland.flebella.com/")
+    whats_message = models.TextField(null=True, blank=True, default=message)
     whats_btn_text = models.CharField(max_length=255, default="Contáctanos")
     is_enabled = models.BooleanField(default=True)
  

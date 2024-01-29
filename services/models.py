@@ -7,6 +7,21 @@ from ckeditor.fields import RichTextField
 from calltoaction.models import CallToAction as Call2Action
 from django.core.exceptions import ValidationError    
 
+
+message = """"Hola, me gustaría recibir más información sobre las *Promociones y Tratamientos de Flebella*.
+Enviado desde flebiland webapp https://flebiland.flebella.com
+
+Tratamiento de referencia: *...*
+_Distintivo: ..._
+https://flebiland.flebella.com/services
+
+Promoción de referencia: *...*
+_Distintivo: ..._
+https://flebiland.flebella.com/promociones
+
+Muchas Gracias,"""
+
+
 class Page(models.Model):
     name = models.CharField(max_length=255, default="Servicios")
     description = models.TextField(null=True, blank=True, default="<p>Descripción de <span>Servicios...</span></p>")

@@ -2,9 +2,9 @@
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row g-5">
+        <div class="row">
 
-            <div class={% if is_sidebar_enabled %}"col-lg-8"{% endif %}>
+            <div class="col-lg-8">
 
                 <article class="article">
                     {% if post.header_image and post.show_header_image %}
@@ -13,7 +13,7 @@
                     </div>
                     {% endif %}
 
-                    <div class="d-flex justify-content-between">
+                    <div class="row justify-content-between">
                         {% if post.show_title %}
                         <h2 class="title">{{ post.title }}</h2>
                         {% endif %}
@@ -87,7 +87,8 @@
                     {% endif %}
 
                     {% if post.postcard.all and post.is_postcard_enabled %}
-                    <div id="carouselPostCard" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div id="carouselPostCard" class="carousel slide" data-bs-ride="carousel"
+                        data-bs-interval="{{ post.postcard_interval }}">
 
                         <div class="carousel-indicators mt-3">
                             {% for postcard in post.postcard.all %}
@@ -103,11 +104,13 @@
                         <div class="carousel-inner">
                             {% for postcard in post.postcard.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <div class="row gy-3 justify-content-center align-items-center p-3"
+                                <div class="row justify-content-center align-items-center"
                                     style="background-color: {{ postcard.background_color }};">
 
                                     {% if postcard.show_title %}
-                                    <h2 class="title">{{ postcard.title }}</h2>
+                                    <div class="px-4">
+                                        <h2 class="title" style="color: {{ postcard.text_color }};">{{ postcard.title }}</h2>
+                                    </div>
                                     {% endif %}
 
                                     {% if postcard.header_image %}
@@ -115,50 +118,34 @@
                                         <img src="{{ postcard.header_image.url }}" class="d-block w-100" alt="...">
                                     </div>
                                     {% endif %}
-                                    <div>
+                                    <div class="mt-3 px-4" style="color: {{ postcard.text_color }};">
                                         {{ postcard.body | safe }}
                                     </div>
 
-                                    <div class="row justify-content-center align-items-center p-3" data-aos="fade-up"
-                                        data-aos-delay="300">
-
-                                        {% if postcard.is_whatsapp_enabled %}
-                                        <div class="col-12 text-center p-3">
-                                            <a href="https://api.whatsapp.com/send?phone={{ postcard.whats_number }}&text={{ postcard.whats_message }}" data-aos="fade-up" data-aos-delay="300" class="whatsapp cta-btn" target="_blank">{{ postcard.whats_btn_text }} <i class="bi bi-whatsapp"></i>
-                                            </a>
-                                        </div>
-                                        {% endif %}
-
-                                        {% if postcard.show_metrics %}
-                                        <div class="col-12 text-center">
-                                            <i class="bi bi-clock"></i>
-                                            <span>Válidez: {{ postcard.expiration_date }}</span>
-                                        </div>
-                                        <div class="col-12 text-center">
-                                            <i class="bi bi-compass"></i>
-                                            <span>Cantidad: {{ postcard.available_quantity }}</span>
-                                        </div>
-                                        {% endif %}
-
+                                    {% if postcard.is_whatsapp_enabled %}
+                                    <div class="col-12 text-center">
+                                        <a href="https://api.whatsapp.com/send?phone={{ postcard.whats_number }}&text={{ postcard.whats_message|urlencode }}"
+                                            class="whatsapp cta-btn"
+                                            target="_blank"
+                                            style="color: {{ postcard.text_color }};
+                                            border-color: {{ postcard.text_color }};"
+                                            onmouseover="this.style.color='{{ postcard.background_color }}'; this.style.backgroundColor='{{ postcard.text_color }}';"
+                                            onmouseout="this.style.color='{{ postcard.text_color }}'; this.style.backgroundColor='{{ postcard.background_color }}';"
+                                            >
+                                            {{ postcard.whats_btn_text }} <i class="bi bi-whatsapp"></i>
+                                        </a>
                                     </div>
+                                    {% endif %}
 
-
-                                    {% if postcard.show_meta_bottom %}
-                                    <div class="meta-bottom">
-
-                                        <i class="bi bi-folder"></i>
-                                        <ul class="cats">
-                                            {% for category in postcard.category.all %}
-                                            <li>{{ category.name }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                        <i class="bi bi-tags"></i>
-                                        <ul class="tags">
-                                            {% for tag in postcard.tags.all %}
-                                            <li>{{ tag.name }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div><!-- End meta bottom -->
+                                    {% if postcard.show_metrics %}
+                                    <div class="text-center mt-3" style="color: {{ postcard.text_color }};">
+                                        <i class="bi bi-clock"></i>
+                                        <span>Válidez: {{ postcard.expiration_date }}</span>
+                                    </div>
+                                    <div class="col-12 text-center mb-3" style="color: {{ postcard.text_color }};">
+                                        <i class="bi bi-compass"></i>
+                                        <span>Cantidad: {{ postcard.available_quantity }}</span>
+                                    </div>
                                     {% endif %}
 
                                 </div>
@@ -315,7 +302,6 @@
 
             <div class="col-lg-4">
 
-                {% if is_sidebar_enabled %}
                 <div class="sidebar">
                     <div class="sidebar-item recent-posts">
 
@@ -379,7 +365,6 @@
                     {% endcomment %}
 
                 </div><!-- End Sidebar -->
-                {% endif %}
 
             </div>
         </div>
@@ -454,7 +439,7 @@
             padding: 12px 40px;
             border-radius: 5px;
             transition: 0.5s;
-            margin-top: 20px;
+            margin-top: 0px;
             border: 2px solid var(--color-inverse);
             color: var(--color-inverse);
         }
@@ -463,6 +448,11 @@
             background: var(--color-primary);
             border: 2px solid var(--color-primary);
         }
+
+        .blog-details .article {
+            padding: 10px;
+        }
+
     </style>
 
 

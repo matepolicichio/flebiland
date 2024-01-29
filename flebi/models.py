@@ -2,6 +2,19 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 
+message = """"Hola, me gustaría recibir más información sobre las *Promociones y Tratamientos de Flebella*.
+Enviado desde flebiland webapp https://flebiland.flebella.com
+
+Tratamiento de referencia: *...*
+_Distintivo: ..._
+https://flebiland.flebella.com/services
+
+Promoción de referencia: *...*
+_Distintivo: ..._
+https://flebiland.flebella.com/promociones
+
+Muchas Gracias,"""
+
 def validate_numeric_whatsapp_number(value):
     if not value.isdigit():
         raise ValidationError('WhatsApp number must contain only numeric characters.')
@@ -24,15 +37,15 @@ class Header(models.Model):
     getstarted_link2section = models.CharField(max_length=255, default="nosotros")
     getstarted_text = models.CharField(max_length=255, default="Comenzar")
 
-    is_whatsapp_enabled = models.BooleanField(default=False)
+    is_whatsapp_enabled = models.BooleanField(default=True)
     whats_number = models.CharField(
         max_length=20,
         null=True,
         blank=True,
         validators=[validate_numeric_whatsapp_number],
-        default="5491133332216"
+        default="5491168653898"
         )
-    whats_message = models.CharField(max_length=255, default="Hola,%20me%20gustaría%20recibir%20más%20información.%0A- Nombre:%0A- Correo:%0AEnviado%20desde%20mi%20página%20web:%20https://ingenios.com.ar")
+    whats_message = models.TextField(null=True, blank=True, default=message)
     whats_btn_text = models.CharField(max_length=255, default="Contáctanos")
  
     def __str__(self):

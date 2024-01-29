@@ -24,7 +24,7 @@ def index(request):
     nav_menu = SectionSelection.objects.filter(
         nav_enabled=True)
     
-    header = Header.objects.first()    
+    header = Header.objects.first()
     
     promo_posts = PromoPost.objects.filter(is_visible=True).order_by('sort_order')
     service_posts = ServicePost.objects.filter(is_visible=True).order_by('sort_order')

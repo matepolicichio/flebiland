@@ -33,7 +33,7 @@
       {% endif %}
 
       {% if header.is_whatsapp_enabled %}
-      <a href="https://api.whatsapp.com/send?phone={{ header.whats_number }}&text={{ header.whats_message }}"
+      <a href="https://api.whatsapp.com/send?phone={{ header.whats_number }}&text={{ header.whats_message|urlencode }}"
       class="whatsapp btn-whatsapp" target="_blank">
         <i class="bi bi-whatsapp"></i>
       </a>

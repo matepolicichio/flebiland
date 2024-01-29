@@ -21,6 +21,7 @@ class PostAdmin(admin.ModelAdmin):
                     'snippet',
                     'show_description',
                     'is_postcard_enabled',
+                    'postcard_interval',
                     'get_postcards',
                     'show_meta_bottom',
                     'get_categories',
@@ -58,15 +59,12 @@ class PostCardAdmin(admin.ModelAdmin):
                     'is_whatsapp_enabled',
                     'whats_number',
                     'whats_message',
-                    'whats_btn_text',
-                    'get_categories',
-                    'get_tags',
-                    'show_meta_bottom',                    
+                    'whats_btn_text',                 
                     'sort_order',
                     'created_at',
                     'updated_at',
-                    'is_sidebar_enabled',
                     'background_color',
+                    'text_color',
                     ]
 
     # Define methods to display tags and categories in the list display
