@@ -7,29 +7,29 @@
             <div class="col-lg-8">
 
                 <article class="article">
+
+                    {% if user.id == post.author.id %}
+                    <div id='comments-link' class="d-flex justify-content-end align-items-center">
+                        <a href="{% url 'promociones:update_post' post.pk %}"><i class="bi bi-pencil"></i></a>
+                        <a href="{% url 'promociones:delete_post' post.pk %}"><i class="bi bi-trash"> </i></a>
+                    </div>
+                    {% endif %}
+
                     {% if post.header_image and post.show_header_image %}
                     <div class="post-img">
                         <img src="{{ post.header_image.url }}" alt="..." class="img-fluid">
                     </div>
                     {% endif %}
 
-                    <div class="row justify-content-between">
-                        {% if post.show_title %}
-                        <h2 class="title">{{ post.title }}</h2>
-                        {% endif %}
-
-                        {% if user.id == post.author.id %}
-
-                        <div id='comments-link' class="d-flex align-items-center">
-                            <a href="{% url 'promociones:update_post' post.pk %}"><i class="bi bi-pencil"></i></a>
-                            <a href="{% url 'promociones:delete_post' post.pk %}"><i class="bi bi-trash"> </i></a>
-                        </div>
-                        {% endif %}
+                    {% if post.show_title %}
+                    <div class="row text-center">
+                        <h2 class="title m-0 p-2">{{ post.title }}</h2>
                     </div>
+                    {% endif %}
 
                     {% if post.show_meta_top %}
-                    <div class="meta-top">
-                        <ul>
+                    <div class="meta-top my-2">
+                        <ul class="justify-content-center">
                             <li class="d-flex align-items-center"><i class="bi bi-person"></i>
                                 {% if post.author.profile %}
                                 <a href="{% url 'members:show_profile' post.author.profile.id %}">
@@ -106,7 +106,8 @@
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <div class="row justify-content-center align-items-center">
 
-                                    <div class="col-md-8 p-0" style="background-color: {{ postcard.background_color }};">
+                                    <div class="col-md-8 p-0"
+                                        style="background-color: {{ postcard.background_color }};">
 
                                         {% if postcard.show_title %}
                                         <div class="px-2">
@@ -130,8 +131,8 @@
                                             <a href="https://api.whatsapp.com/send?phone={{ postcard.whats_number }}&text={{ postcard.whats_message|urlencode }}"
                                                 class="whatsapp cta-btn" target="_blank"
                                                 style="color: {{ postcard.text_color }}; border-color: {{ postcard.text_color }};"
-                                                onmouseover="this.style.color='{{ postcard.background_color }}';"
-                                                onmouseout="this.style.color='{{ postcard.text_color }}';">
+                                                onmouseover="this.style.color='{{ postcard.background_color }}'; this.style.backgroundColor='{{ postcard.text_color }}';"
+                                                onmouseout="this.style.color='{{ postcard.text_color }}'; this.style.backgroundColor='{{ postcard.background_color }}';">
                                                 {{ postcard.whats_btn_text }} <i class="bi bi-whatsapp"></i>
                                             </a>
                                         </div>
@@ -375,7 +376,7 @@
 
     <style>
         .blog-details {
-            padding: 30px;
+            padding: 30px 0px;
         }
 
         /* Custom CSS for styling */
@@ -385,7 +386,7 @@
         }
 
         .blog-details .carousel-indicators {
-            top: 5px;
+            top: 0px;
             height: 100px;
             /* Adjust top margin for positioning */
             text-align: center;
