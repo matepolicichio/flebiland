@@ -90,7 +90,7 @@
                     <div id="carouselPostCard" class="carousel slide" data-bs-ride="carousel"
                         data-bs-interval="{{ post.postcard_interval }}">
 
-                        <div class="carousel-indicators mt-3">
+                        <div class="carousel-indicators">
                             {% for postcard in post.postcard.all %}
                             <button type="button" data-bs-target="#carouselPostCard"
                                 data-bs-slide-to="{{ forloop.counter0 }}"
@@ -150,6 +150,8 @@
                                             </div>
                                         </div>
                                         {% endif %}
+
+                                        <div class="indicator-space"></div>
                                     </div>
 
                                 </div>
@@ -386,11 +388,16 @@
         }
 
         .blog-details .carousel-indicators {
-            top: 0px;
-            height: 100px;
+            bottom: 0px;
+            height: 30px;
+            padding: 10px;
             /* Adjust top margin for positioning */
             text-align: center;
             /* Center the indicators */
+        }
+
+        .blog-details .indicator-space {
+            height: 40px;
         }
 
         .blog-details .carousel-indicators .button {
