@@ -2,30 +2,31 @@
 {% block title %}{{ post.title_tag }}{% endblock %}
 
 {% block body_class %}
-    class="blog-details-page" data-bs-spy="scroll" data-bs-target="#navmenu"
+class="blog-details-page" data-bs-spy="scroll" data-bs-target="#navmenu"
 {% endblock %}
 
 {% block main %}
 
 <main id="main">
 
-<br><br><br>
-{% if sections %}
+    <div class="top-space" style="height: 100px;"></div>
+
+    {% if sections %}
     {% for section_selection in sections %}
-        {% include section_selection.section.section_path %}
+    {% include section_selection.section.section_path %}
     {% endfor %}
-{% endif %}
+    {% endif %}
 
 </main>
 
 {% endblock %}
 
-
-{% block jquery_content %}
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 {% comment %}
+{% block jquery_content %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
+
     $(document).ready(function () {
         // Handle like button click using jQuery
         $('#like-form').submit(function (event) {
@@ -49,24 +50,21 @@
                 }
             });
         });
-    });
-</script>
 
-<script>
-    document.getElementById('comments-link').addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent the default behavior of the link
-        var targetElement = document.getElementById('comments');
+        // Scroll to comments section when comments link is clicked
+        $('#comments-link').click(function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+            var targetElement = $('#comments');
 
-        // Calculate the target position with an additional 100px offset
-        var targetPosition = targetElement.offsetTop - 100;
+            // Calculate the target position with an additional 100px offset
+            var targetPosition = targetElement.offset().top - 100;
 
-        // Use smooth scrolling
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
+            // Use smooth scrolling
+            $('html, body').animate({
+                scrollTop: targetPosition
+            }, 1000);
         });
-    });
-</script>
-{% endcomment %}
 
+</script>
 {% endblock %}
+{% endcomment %}
