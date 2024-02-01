@@ -5,12 +5,12 @@ from django.core.exceptions import ValidationError
 message = """"Hola, me gustaría recibir más información sobre las *Promociones y Tratamientos de Flebella*.
 Enviado desde flebiland webapp https://flebiland.flebella.com
 
-Tratamiento de referencia: *...*
+Tratamiento: *...*
 _Distintivo: ..._
 https://flebiland.flebella.com/services
 
-Promoción de referencia: *...*
-_Distintivo: ..._
+Pack: *...*
+_Promo: ..._
 https://flebiland.flebella.com/promociones
 
 Muchas Gracias,"""

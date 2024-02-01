@@ -8,11 +8,11 @@ from colorfield.fields import ColorField
 from calltoaction.models import CallToAction as Call2Action
 from django.core.exceptions import ValidationError
 
-message = """"Hola, me gustaría recibir más información sobre las *Promociones y Tratamientos de Flebella*.
+message = """"Hola, me gustaría recibir más información sobre las *Promociones de Flebella*.
 Enviado desde flebiland webapp https://flebiland.flebella.com
 
-Promoción de referencia: *...*
-_Distintivo: ..._
+Pack: *...*
+_Promo: ..._
 https://flebiland.flebella.com/promociones
 
 Muchas Gracias,"""

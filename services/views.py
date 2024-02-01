@@ -77,7 +77,7 @@ def ArticleDetailView(request, pk):
     header = Header.objects.first() 
 
     post = get_object_or_404(Post, pk=pk)
-    posts = Post.objects.filter(is_visible=True).order_by('-post_date')
+    posts = Post.objects.filter(is_visible=True).order_by('sort_order')
 
     calltoaction = None
     if post.call2action:
