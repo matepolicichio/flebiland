@@ -81,7 +81,7 @@ class Post(models.Model):
     title_tag = models.CharField(max_length=255, default="Promociones")
     header_image = models.ImageField(null=True, blank=True, upload_to="images/promociones/", default=None)
     show_header_image = models.BooleanField(default=True)
-    author = models.ForeignKey(User, related_name='promo_author', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name='promo_author', null=True, on_delete=models.SET_NULL)
     snippet = models.CharField(max_length=255, null=True, blank=True)
     body = RichTextField(blank=True, null=True)
     show_description = models.BooleanField(default=True)
