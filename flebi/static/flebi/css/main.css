@@ -1965,12 +1965,12 @@ section {
 }
 
 .call-to-action img {
-  position: fixed;
-  top: 100px;
+  position: relative;
+  top: 0;
   left: 0;
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
   z-index: 1;
