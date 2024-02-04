@@ -2,11 +2,16 @@
 
 <!-- Call-to-action Section - Home Page -->
 {% if calltoaction %}
-<section id="{{ section_selection.section.html_id }}" class="call-to-action">
-
-  {% if calltoaction.background_image %}
-  <img src="{{ calltoaction.background_image.url }}" alt="...">
-  {% endif %}
+<section id="{{ section_selection.section.html_id }}"
+    class="call-to-action"
+    {% if calltoaction.background_image %}
+      style="background-image: url('{{ calltoaction.background_image.url }}');
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      width: 100%;"
+    {% endif %}
+    >
 
   <div class="container">
     <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
@@ -23,5 +28,7 @@
 
 </section>
 {% endif %}
+
+
 
 <!-- End Call-to-action Section -->
