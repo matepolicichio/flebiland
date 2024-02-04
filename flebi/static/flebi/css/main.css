@@ -1966,7 +1966,7 @@ section {
 
 .call-to-action img {
   position: fixed;
-  top: 0;
+  top: 100px;
   left: 0;
   display: block;
   width: 100%;
