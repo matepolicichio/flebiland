@@ -21,12 +21,35 @@ class="blog-details-page" data-bs-spy="scroll" data-bs-target="#navmenu"
 
 {% endblock %}
 
-{% comment %}
+
 {% block jquery_content %}
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
 
+function decreaseQuantity(postcardId) {
+        // Send AJAX request to decrease available quantity
+        $.ajax({
+            type: "POST",
+            url: "{% url 'promociones:decrease_quantity' %}",
+            data: {
+                'postcard_id': postcardId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+            // Update the displayed quantity based on the response from the server
+            // For example, if the response contains the updated quantity, update the DOM element accordingly
+            var updatedQuantity = response.quantity; // Assuming the response contains the updated quantity
+            $('#quantity_display_' + postcardId).text(updatedQuantity); // Update the quantity display element
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText); // log any errors to the console
+            }
+        });
+    }
+
+
+{% comment %}
     $(document).ready(function () {
         // Handle like button click using jQuery
         $('#like-form').submit(function (event) {
@@ -64,7 +87,8 @@ class="blog-details-page" data-bs-spy="scroll" data-bs-target="#navmenu"
                 scrollTop: targetPosition
             }, 1000);
         });
+                
+{% endcomment %}
 
 </script>
 {% endblock %}
-{% endcomment %}

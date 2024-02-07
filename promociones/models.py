@@ -50,8 +50,12 @@ class PostCard(models.Model):
     body = RichTextField(blank=True, null=True)
 
     expiration_date = models.DateField(null=True, blank=True)
+    start_day = models.IntegerField(default=1)
+    end_day = models.IntegerField(default=31)
+
     available_quantity = models.IntegerField(default=0)
     show_metrics = models.BooleanField(default=True)
+
 
     is_whatsapp_enabled = models.BooleanField(default=True)    
     whats_number = models.CharField(
@@ -65,6 +69,7 @@ class PostCard(models.Model):
     whats_btn_text = models.CharField(max_length=255, default="Quiero esta Promo")
 
     sort_order = models.IntegerField(default=1)
+    is_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

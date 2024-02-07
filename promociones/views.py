@@ -1,17 +1,20 @@
 import os
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Category, Tag, Page
+from .models import Post, Category, Tag, Page, PostCard
 from flebi.models import Header, Footer
 from sectionselection.models import SectionSelection
 from calltoaction.models import CallToAction
 from .forms import PostForm
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse, HttpResponseRedirect
-# from django.conf import settings
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 import random
 from random import choice
+
+import datetime
 from datetime import date
 
 
@@ -38,6 +41,7 @@ def HomeView(request):
     promo_page_random_content = None
     if enabled_promo_page_content.exists():
         promo_page_random_content = random.choice(enabled_promo_page_content)
+
 
     context = {
         'sections': sections,
@@ -98,6 +102,15 @@ def ArticleDetailView(request, pk):
         promo_page_random_content = random.choice(enabled_promo_page_content)
 
     today = date.today()
+    last_day_of_this_month = (today.replace(day=1) + datetime.timedelta(days=32)).replace(day=1) - datetime.timedelta(days=1)
+
+    postcards = post.postcard.all().order_by('sort_order').filter(is_enabled=True)
+
+    for postcard in postcards:
+        if postcard.start_day <= today.day <= postcard.end_day:
+            postcard.expiration_days = min(last_day_of_this_month.day, postcard.end_day) - today.day
+        else:
+            postcard.expiration_days = 0
 
     context = {
         'sections': sections,
@@ -108,12 +121,34 @@ def ArticleDetailView(request, pk):
         'promo_posts': posts,
         'calltoaction': calltoaction,
         'promo_page_content': promo_page_random_content,
+        'postcards': postcards,
         'today': today,
     }
 
     template_name = 'promociones/article_details.html'
 
     return render(request, template_name, context)
+
+
+@csrf_exempt
+def decrease_quantity_view(request):
+    if request.method == 'POST':
+        postcard_id = request.POST.get('postcard_id')
+        if postcard_id:
+            try:
+                postcard = PostCard.objects.get(pk=postcard_id)
+                # Decrease the available_quantity based on frequency_whats_clic
+                postcard.available_quantity -= 1
+                # Ensure available_quantity does not go below zero
+                postcard.available_quantity = max(postcard.available_quantity, 0)
+                postcard.save()
+                return JsonResponse({'success': True, 'quantity': postcard.available_quantity})
+            except PostCard.DoesNotExist:
+                return JsonResponse({'success': False, 'error': 'PostCard does not exist'}, status=404)
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+
+
 
 
 class AddPostView(CreateView):

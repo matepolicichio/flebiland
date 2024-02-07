@@ -86,23 +86,28 @@
                     </div><!-- End post content -->
                     {% endif %}
 
-                    {% if post.postcard.all and post.is_postcard_enabled %}
+                    {% if postcards %}                    
+
                     <div id="carouselPostCard" class="carousel slide" data-bs-ride="carousel"
                         data-bs-interval="{{ post.postcard_interval }}">
 
                         <div class="carousel-indicators">
-                            {% for postcard in post.postcard.all %}
+                            {% for postcard in postcards %}
+                            {% if user.is_authenticated and user.is_staff or postcard.expiration_days > 0 and today <= postcard.expiration_date %}
                             <button type="button" data-bs-target="#carouselPostCard"
                                 data-bs-slide-to="{{ forloop.counter0 }}"
                                 class="button {% if forloop.first %}active{% endif %}"
                                 aria-current="{% if forloop.first %}true{% endif %}"
                                 aria-label="Slide {{ forloop.counter }}">
                             </button>
+                            {% endif %}
                             {% endfor %}
                         </div>
 
                         <div class="carousel-inner">
-                            {% for postcard in post.postcard.all %}
+                            {% for postcard in postcards %}
+                            {% if user.is_authenticated and user.is_staff or postcard.expiration_days > 0 and today <= postcard.expiration_date %}
+                            
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <div class="row justify-content-center align-items-center">
 
@@ -132,7 +137,9 @@
                                                 class="whatsapp cta-btn" target="_blank"
                                                 style="color: {{ postcard.text_color }}; border-color: {{ postcard.text_color }};"
                                                 onmouseover="this.style.color='{{ postcard.background_color }}'; this.style.backgroundColor='{{ postcard.text_color }}';"
-                                                onmouseout="this.style.color='{{ postcard.text_color }}'; this.style.backgroundColor='{{ postcard.background_color }}';">
+                                                onmouseout="this.style.color='{{ postcard.text_color }}'; this.style.backgroundColor='{{ postcard.background_color }}';"
+                                                onclick="decreaseQuantity({{ postcard.pk }})"
+                                                >
                                                 {{ postcard.whats_btn_text }} <i class="bi bi-whatsapp"></i>
                                             </a>
                                         </div>
@@ -141,12 +148,24 @@
                                         {% if postcard.show_metrics %}
                                         <div class="p-3">
                                             <div class="text-center" style="color: {{ postcard.text_color }};">
-                                                <i class="bi bi-clock"></i>
-                                                <span>Válidez: {{ postcard.expiration_date }}</span>
+                                                {% if postcard.expiration_days > 0 and today <= postcard.expiration_date %}
+                                                    <i class="bi bi-clock"></i>
+                                                    <span>Expira en {{ postcard.expiration_days }} día(s)</span>
+                                                {% else %}
+                                                    <i class="bi bi-clock" style="color: red;"></i>    
+                                                    <span style="color: red;">EXPIRADO!</span><br>
+                                                    <span {% if today > postcard.expiration_date %}style="color: red;"{% endif %}>Validéz: {{ postcard.expiration_date }}</span><br>
+                                                    <span {% if postcard.expiration_days == 0 %}style="color: red;"{% endif %}>Ciclo: {{ postcard.start_day }} ... al {{ postcard.end_day }} de cada mes</span>
+                                                {% endif %}
                                             </div>
                                             <div class="text-center" style="color: {{ postcard.text_color }};">
-                                                <i class="bi bi-compass"></i>
-                                                <span>Diponible: {{ postcard.available_quantity }}</span>
+                                                {% if postcard.available_quantity > 0 %}
+                                                    <i class="bi bi-compass"></i>
+                                                    <span>Disponible: <span id="quantity_display_{{ postcard.pk }}">{{ postcard.available_quantity }}</span></span>
+                                                {% else %}
+                                                    <i class="bi bi-compass" style="color: red;"></i>
+                                                    <span style="color: red;">NO DISPONIBLE: <span id="quantity_display_{{ postcard.pk }}">{{ postcard.available_quantity }}</span></span>
+                                                {% endif %}
                                             </div>
                                         </div>
                                         {% endif %}
@@ -156,6 +175,7 @@
 
                                 </div>
                             </div>
+                            {% endif %}
                             {% endfor %}
                         </div>
 
@@ -172,7 +192,6 @@
 
                     </div>
                     {% endif %}
-
 
                     {% if post.show_meta_bottom %}
                     <div class="meta-bottom">
@@ -468,7 +487,5 @@
             padding: 10px;
         }
     </style>
-
-
 
 </section><!-- End Blog-details Section -->

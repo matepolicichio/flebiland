@@ -54,6 +54,8 @@ class PostCardAdmin(admin.ModelAdmin):
     list_display = ['title',
                     'header_image',
                     'expiration_date',
+                    'start_day',
+                    'end_day',
                     'available_quantity',
                     'show_metrics',
                     'is_whatsapp_enabled',
