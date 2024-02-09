@@ -91,11 +91,6 @@ def ArticleDetailView(request, pk):
     if post.call2action:
         calltoaction = get_object_or_404(CallToAction, id=post.call2action.id)
 
-    # categories = Category.objects.all()
-    # category_counts = {category.name: category.articles.count() for category in categories}
-    
-    # tags = Tag.objects.all()
-
     enabled_promo_page_content = Page.objects.filter(is_enabled=True)    
     promo_page_random_content = None
     if enabled_promo_page_content.exists():
@@ -104,9 +99,20 @@ def ArticleDetailView(request, pk):
     today = date.today()
     last_day_of_this_month = (today.replace(day=1) + datetime.timedelta(days=32)).replace(day=1) - datetime.timedelta(days=1)
 
-    postcards = post.postcard.all().order_by('sort_order').filter(is_enabled=True)
+    # Check if user is authenticated and part of staff
+    if request.user.is_authenticated and request.user.is_staff:
+        postcards = post.postcard.filter(is_enabled=True).order_by('sort_order')
+    else:
+        postcards = post.postcard.filter(
+            is_enabled=True,
+            expiration_date__gte=today,
+            start_day__lte=today.day,
+            end_day__gte=today.day,
+            available_quantity__gt=0,
+        ).order_by('sort_order')
 
     for postcard in postcards:
+        print(postcard.start_day)
         if postcard.start_day <= today.day <= postcard.end_day:
             postcard.expiration_days = min(last_day_of_this_month.day, postcard.end_day) - today.day
         else:
