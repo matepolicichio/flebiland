@@ -29,7 +29,7 @@
       </nav><!-- End Nav Menu -->
 
       {% if header.is_getstarted_enabled %}
-      <a class="btn-getstarted" href="{% url ':index' %}#{{ header.getstarted_link2section }}">{{ header.getstarted_text }}</a>
+      <a class="btn-getstarted" href="{% url 'flebi:index' %}#{{ header.getstarted_link2section }}">{{ header.getstarted_text }}</a>
       {% endif %}
 
       {% if header.is_whatsapp_enabled %}
