@@ -44,9 +44,10 @@ def validate_numeric_whatsapp_number(value):
 
 
 class PostCard(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, default='PostCard #...')
     show_title = models.BooleanField(default=False)
     header_image = models.ImageField(null=True, blank=True, upload_to="images/promociones/postcard", default=None)
+    video = models.FileField(upload_to="videos/promociones/postcard", null=True, blank=True, default=None)   
     body = RichTextField(blank=True, null=True)
 
     expiration_date = models.DateField(null=True, blank=True)

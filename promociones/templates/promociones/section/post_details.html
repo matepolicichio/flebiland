@@ -1,7 +1,7 @@
 <section id="{{ section_selection.section.html_id }}" class="blog-details">
 
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row">
+        <div class="row gy-5">
             <div class="col-lg-8">
                 <article class="article">
 
@@ -111,11 +111,19 @@
                                             </div>
                                             {% endif %}
 
-                                            {% if postcard.header_image %}
+                                            {% if postcard.video %}
+                                            <div class="text-center">
+                                                <video id="video-{{ forloop.counter }}" controls muted>
+                                                    <source src="{{ postcard.video.url }}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                            {% elif postcard.header_image %}
                                             <div class="text-center">
                                                 <img src="{{ postcard.header_image.url }}" class="d-block w-100" alt="...">
                                             </div>
                                             {% endif %}
+
                                             <div class="mt-3 px-4" style="color: {{ postcard.text_color }};">
                                                 {{ postcard.body | safe }} 
                                             </div>
@@ -465,5 +473,24 @@
             padding: 10px;
         }
     </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var carousel = document.getElementById("carouselPostCard");
+            var videos = carousel.querySelectorAll("video");
+            
+            carousel.addEventListener("slid.bs.carousel", function() {
+                videos.forEach(function(video) {
+                    video.pause(); // Pause all videos
+                    video.currentTime = 0; // Reset video to start
+                });
+                
+                var activeVideo = carousel.querySelector(".carousel-item.active video");
+                if (activeVideo) {
+                    activeVideo.play(); // Play video on active slide
+                }
+            });
+        });
+    </script>
 
 </section><!-- End Blog-details Section -->

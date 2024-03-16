@@ -5,7 +5,7 @@
         <a href="{% url 'promociones:home' %}">
             <h2>{{ promo_page_content.name }}</h2>
         </a>
-        <p>{{ promo_page_content.description | safe }}</p>
+        <p>{{ promo_page_content.description }}</p>
         {% endif %}
     </div>
 
